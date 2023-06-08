@@ -1,6 +1,7 @@
 const express = require("express");
 const router = new express.Router();
 const Products= require("../models/productsSchema");
+const USER = require("../models/userSchema");
 
 
 //http method for api call to get data.
@@ -34,6 +35,48 @@ router.get("/getproductsone/:id",async(req,res)=>{
         
     }
 })
+
+// register data 
+
+
+router.post("/register",async(req,res)=>{
+//  console.log(req.body);
+
+const {fname,email,mobile,password,cpassword}= req.body;
+
+if(!fname || !email || !mobile || !password || !cpassword){
+    res.status(422).json({error:"please fill all the fields"});
+    console.log("not data available");
+};
+     try{
+        const preuser = await USER.findOne({email: email});
+
+        if(preuser){
+        res.status(422).json({error:"user already exists"});
+        }else if(password !== cpassword){
+        res.status(422).json({error:"passwords do not match"});
+       }else{
+        const finalUser = new USER({
+            fname,email,mobile,password,cpassword
+        });
+
+        //bcryptjs 
+
+        // password hashing process will done here 
+
+        
+       
+       const storedata = await finalUser.save();
+        console.log(storedata);
+        res.status(201).json(storedata);
+         
+    }
+ 
+  }catch(error){
+  
+}
+
+});
 
 
 

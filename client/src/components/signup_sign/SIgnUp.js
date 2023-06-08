@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SIgnUp = () => {
   const [udata, setUdata] = useState({
@@ -7,7 +9,7 @@ const SIgnUp = () => {
     email: "",
     mobile: "",
     password: "",
-    cpassword: "",
+    cpassword: ""
   });
 
   console.log(udata);
@@ -23,6 +25,41 @@ const SIgnUp = () => {
   // })
   // }; 
 
+const senddata = async (e) => {
+  e.preventDefault();
+  // console.log(udata);
+  const {fname, email, mobile, password, cpassword } = udata;
+
+  const res = await fetch("register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      fname,
+      email,
+      mobile,
+      password,
+      cpassword
+    })
+  });
+  const data = await res.json();
+  // console.log(data);
+  if (res.status === 422 || !data) {
+    // alert("Sign Up Failed");
+    toast.warn("Invalid details",{
+      position: "top-center"
+    })
+    // window.location.href = "/";
+  } else {
+    // alert("Sign Up Successful"); 
+    toast.success("Sign Up Successful",{
+      position: "top-center"
+    })
+    setUdata({...udata, fname:"",email:"",mobile:"",password:"",cpassword:""});
+  }
+}
+
 
   return (
     <>
@@ -32,7 +69,7 @@ const SIgnUp = () => {
             <img src="./blacklogoamazon.png" alt="amazonlogo" />
           </div>
           <div className="sign_form">
-            <form>
+            <form method="POST">
               <h1>Sign-Up</h1>
               <div className="form_data">
                 <label htmlFor="fname">Your Name </label>
@@ -90,13 +127,15 @@ const SIgnUp = () => {
                   id="cpassword"
                 />
               </div>
-              <button className="signin_btn">Continue</button>
+              <button className="signin_btn" onClick={senddata}>Continue</button>
+
               <div className="signin_info">
                 <p>Already have an account?</p>
                 <NavLink to="/login">signin</NavLink>
               </div>
             </form>
           </div>
+          <ToastContainer />
         </div>
       </section>
     </>
