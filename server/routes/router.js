@@ -2,6 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const Products= require("../models/productsSchema");
 const USER = require("../models/userSchema");
+const bcrypt = require("bcryptjs");
 
 
 //http method for api call to get data.
@@ -77,6 +78,36 @@ if(!fname || !email || !mobile || !password || !cpassword){
 }
 
 });
+
+
+// Login  User API 
+
+router.post("/login",async(req,res)=>{
+  const {email,password} = req.body;
+
+  if(!email || !password){
+    res.status(400).json({error:"please fill all the fields"});
+  };
+  try{
+    const userlogin = await USER.findOne({email: email});
+    console.log(userlogin + "user value");
+
+    if(userlogin){
+        const isMatch = await bcrypt.compare(password,userlogin.password);
+        console.log(isMatch);
+    
+     if(!isMatch){
+        res.status(400).json({error:"invalid   detials"});
+     }
+     else{
+        res.status(200).json(userlogin);
+     }
+    }
+  }catch(error){
+   res.status(400).json({error:"invalid details"});
+}  
+})
+
 
 
 

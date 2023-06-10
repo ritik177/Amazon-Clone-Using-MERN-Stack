@@ -9,7 +9,7 @@ const Cart = () => {
   const id = useParams("");
   // console.log(id);
 
-  const [inddata, setIndedata] = useState([]);
+  const [inddata, setInddata] = useState([]);
   console.log(inddata);
 
   const getinddata = async () => {
@@ -26,7 +26,7 @@ const Cart = () => {
       alert("no data available");
     } else {
       // console.log("getdata");
-      setIndedata(data);
+      setInddata(data);
     }
 
   }

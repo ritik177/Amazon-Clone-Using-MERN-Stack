@@ -36,13 +36,11 @@ const senddata = async (e) => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      fname,
-      email,
-      mobile,
-      password,
-      cpassword
+      fname, email, mobile, password, cpassword 
     })
   });
+
+  
   const data = await res.json();
   // console.log(data);
   if (res.status === 422 || !data) {
