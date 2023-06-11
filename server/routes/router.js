@@ -95,6 +95,17 @@ router.post("/login",async(req,res)=>{
     if(userlogin){
         const isMatch = await bcrypt.compare(password,userlogin.password);
         console.log(isMatch);
+
+        // token generation should be done here  
+
+        const token  = await userlogin.generateAuthtoken();
+        // console.log(token);
+
+  res.cookie("Amazonweb",token,{
+    expires: new Date(Date.now() + 900000),
+    httpOnly: true
+  })
+
     
      if(!isMatch){
         res.status(400).json({error:"invalid   detials"});
@@ -102,6 +113,8 @@ router.post("/login",async(req,res)=>{
      else{
         res.status(200).json(userlogin);
      }
+    }else{
+        res.status(400).json({error:"invalid detials"});
     }
   }catch(error){
    res.status(400).json({error:"invalid details"});
