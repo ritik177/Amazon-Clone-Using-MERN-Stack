@@ -84,6 +84,8 @@
         discount: 'From ₹499', 
         tagline: 'Kubra, Nova & more' 
     }
-]
+];
 
 module.exports = products;
+
+// export default products;
