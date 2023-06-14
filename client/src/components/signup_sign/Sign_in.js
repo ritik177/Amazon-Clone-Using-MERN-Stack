@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import "./signup.css";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { LoginContext } from "../context/ContextProvider";
@@ -15,6 +16,8 @@ const Sign_in = () => {
   console.log(logdata);
 
   const {account , setAccount} = useContext(LoginContext);
+  
+  const history = useNavigate();
 
 
 
@@ -59,6 +62,7 @@ const senddata = async(e)=>{
       position: "top-center"
     })
     setData ({...logdata , email:"", password:""});
+    history("/");
   }
 
 
