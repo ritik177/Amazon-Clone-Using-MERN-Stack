@@ -4,8 +4,10 @@ import Avatar from "@mui/material/Avatar";
 import { NavLink } from "react-router-dom";
 import { Divider } from "@mui/material";
 import "./leftheader.css";
+import LogoutIcon from "@mui/icons-material/Logout";
 
-const Leftheader = ({logclose}) => {
+
+const Leftheader = ({logclose,Logoutuser}) => {
   const { account, setAccount } = useContext(LoginContext);
 
   return (
@@ -35,9 +37,21 @@ const Leftheader = ({logclose}) => {
           
           <div className="flag">
             <NavLink to="/">Settings</NavLink> 
-            <img src = "" alt=""/>
+            <img src = "./india.png" style={{width:35,marginLeft:10}} alt=""/>
           </div>
 
+      {
+  account ? (
+    <div className="flag">
+      <LogoutIcon style={{ fontSize: 18, marginRight: 4 }} />
+      <h3 onClick={() => Logoutuser()} style={{ cursor: "pointer", fontWeight: 500 }}>Logout</h3>
+    </div>
+  ) : (
+    <NavLink to="login">SignIn</NavLink>
+  )
+  }
+
+            
           
         </div>
       </div>

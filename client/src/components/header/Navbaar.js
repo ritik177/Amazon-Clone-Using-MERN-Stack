@@ -9,13 +9,16 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import Leftheader from "./Leftheader";
 import { NavLink } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../context/ContextProvider";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import LogoutIcon from '@mui/icons-material/Logout';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 const Navbaar = () => {
   const { account, setAccount } = useContext(LoginContext);
@@ -24,7 +27,7 @@ const Navbaar = () => {
   //for redirect to home page
   const history = useNavigate();
 
-  const [anchorEl, setAnchorEl] =useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -32,6 +35,13 @@ const Navbaar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const [text, setText] = useState("");
+  console.log(text);
+
+  const [listopen, setListOpen] = useState(true);
+
+  const { products } = useSelector((state) => state.getproductsdata);
 
   const [draweropen, setDrawerOpen] = useState(false);
 
@@ -63,8 +73,6 @@ const Navbaar = () => {
     setDrawerOpen(false);
   };
 
-
-
   const logoutuser = async () => {
     const res2 = await fetch("/logout", {
       method: "GET",
@@ -74,7 +82,7 @@ const Navbaar = () => {
       },
       credentials: "include",
     });
-    const data2 = await res2 .json();
+    const data2 = await res2.json();
     console.log(data2);
 
     if (res2.status !== 201) {
@@ -82,14 +90,18 @@ const Navbaar = () => {
     } else {
       console.log("data valid");
       // alert("logout");
-      toast.success("you successfully logout",{
-        position: "top-center"
-      })
+      toast.success("you successfully logout", {
+        position: "top-center",
+      });
       setAccount(false);
       history("/");
     }
   };
 
+  const getText = (iteams) => {
+    setText(iteams);
+    setListOpen(false);
+  };
 
   useEffect(() => {
     getdetailvaliduser();
@@ -104,7 +116,7 @@ const Navbaar = () => {
           </IconButton>
 
           <Drawer open={draweropen} onClose={handledrawerclose}>
-            <Leftheader logclose={handledrawerclose} />
+            <Leftheader logclose={handledrawerclose} Logoutuser={logoutuser}/>
           </Drawer>
 
           <div className="navlogo">
@@ -114,10 +126,36 @@ const Navbaar = () => {
             </NavLink>
           </div>
           <div className="nav_searchbaar">
-            <input type="text" name="" id="" />
+            <input
+              type="text"
+              name=""
+              onChange={(element) => getText(element.target.value)}
+              placeholder="Search your products"
+              id=""
+            />
             <div className="search_icon">
               <SearchIcon id="search" />
             </div>
+
+            {/* search filter */}
+
+            {text && (
+              <List className="extrasearch" hidden={listopen}>
+                {products
+                  .filter((product) =>
+                    product.title.longTitle
+                      .toLowerCase()
+                      .includes(text.toLowerCase())
+                  )
+                  .map((product) => (
+                    <ListItem>
+                      <NavLink to={`/getproductsone/${product.id}`} onClick={()=>setListOpen(true)}>
+                      {product.title.longTitle}
+                      </NavLink>
+                      </ListItem>
+                  ))}
+              </List>
+            )}
           </div>
         </div>
 
@@ -139,6 +177,7 @@ const Navbaar = () => {
                 </Badge>
               </NavLink>
             )}
+            <ToastContainer />
 
             <p>Cart</p>
           </div>
@@ -173,13 +212,20 @@ const Navbaar = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-        
             <MenuItem onClick={handleClose}>My account</MenuItem>
-{
-  account ? <MenuItem onClick={()=>{handleClose(); logoutuser(); }}><LogoutIcon style={{fontSize:16,marginRight:3}}/>Logout</MenuItem> :""
-}
-
-            
+            {account ? (
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  logoutuser();
+                }}
+              >
+                <LogoutIcon style={{ fontSize: 16, marginRight: 3 }} />
+                Logout
+              </MenuItem>
+            ) : (
+              ""
+            )}
           </Menu>
         </div>
       </nav>

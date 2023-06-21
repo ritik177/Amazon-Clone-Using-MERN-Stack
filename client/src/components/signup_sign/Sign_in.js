@@ -58,7 +58,7 @@ const senddata = async(e)=>{
   }else{
     console.log("data valid ");
     setAccount(data);
-    toast.success("User successfully login",{
+    toast.success("You are successfully login",{
       position: "top-center"
     })
     setData ({...logdata , email:"", password:""});

@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { LoginContext } from "../context/ContextProvider";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 const Cart = () => {
 
@@ -39,7 +41,7 @@ const Cart = () => {
 
 
   useEffect(() => {
-    getinddata();
+    setTimeout(getinddata,2000)
   }, [id]);
 
   // add cart function 
@@ -102,6 +104,11 @@ const addtocart = async (id)=>{
         </div>
       </div>
         )};
+
+        {!inddata ? <div className="circle">
+          <CircularProgress />
+          <h2>Loading...</h2>
+        </div>:""}
     </div>
   );
 };
