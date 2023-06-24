@@ -1,3 +1,3 @@
 module.exports = Object.freeze({
-    url : "http://localhost:8005", 
+    url : "https://amazon-clone-backend-qewg.onrender.com", 
 });
