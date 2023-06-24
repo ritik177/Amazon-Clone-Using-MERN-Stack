@@ -19,6 +19,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
+import { url } from "../../constant";
 
 const Navbaar = () => {
   const { account, setAccount } = useContext(LoginContext);
@@ -46,7 +47,7 @@ const Navbaar = () => {
   const [draweropen, setDrawerOpen] = useState(false);
 
   const getdetailvaliduser = async () => {
-    const res = await fetch("/validuser", {
+    const res = await fetch(`${url}/validuser`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -74,7 +75,7 @@ const Navbaar = () => {
   };
 
   const logoutuser = async () => {
-    const res2 = await fetch("/logout", {
+    const res2 = await fetch(`${url}/logout`, {
       method: "GET",
       headers: {
         Accept: "application/json",

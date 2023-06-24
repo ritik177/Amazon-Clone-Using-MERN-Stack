@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { url } from "../../constant";
+
 
 const SIgnUp = () => {
   const [udata, setUdata] = useState({
@@ -30,7 +32,7 @@ const senddata = async (e) => {
   // console.log(udata);
   const {fname, email, mobile, password, cpassword } = udata;
 
-  const res = await fetch("register", {
+  const res = await fetch(`${url}register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

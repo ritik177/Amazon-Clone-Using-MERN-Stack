@@ -2,6 +2,8 @@ import {React,useContext} from 'react'
 import { LoginContext } from '../context/ContextProvider';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { url } from "../../constant";
+
 
 const Option = ({deletedata,get}) => {
 
@@ -10,7 +12,7 @@ const Option = ({deletedata,get}) => {
 
 const removedata = async(req, res)=>{
   try {
-    const res = await fetch(`/remove/${deletedata}`,{
+    const res = await fetch(`${url}/remove/${deletedata}`,{
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

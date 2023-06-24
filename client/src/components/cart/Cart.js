@@ -6,6 +6,7 @@ import { LoginContext } from "../context/ContextProvider";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CircularProgress from "@mui/material/CircularProgress";
+import { url } from "../../constant";
 
 
 const Cart = () => {
@@ -21,7 +22,7 @@ const Cart = () => {
   // console.log(inddata);
 
   const getinddata = async () => {
-    const res = await fetch(`/getproductsone/${id}`, {
+    const res = await fetch(`${url}/getproductsone/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
@@ -47,7 +48,7 @@ const Cart = () => {
   // add cart function 
 
 const addtocart = async (id)=>{
-  const checkres = await fetch(`/addcart/${id}`,{
+  const checkres = await fetch(`${url}/addcart/${id}`,{
     method:"POST",
     headers:{
       Accept: "application/json",
