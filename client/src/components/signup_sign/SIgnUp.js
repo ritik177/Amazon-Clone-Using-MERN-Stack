@@ -32,7 +32,7 @@ const senddata = async (e) => {
   // console.log(udata);
   const {fname, email, mobile, password, cpassword } = udata;
 
-  const res = await fetch(`${url}register`, {
+  const res = await fetch(`${url}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
